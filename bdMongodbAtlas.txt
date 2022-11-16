@@ -1,0 +1,5 @@
+mongodb+srv://CodexUDA:<password>@codex.sdbfl4l.mongodb.net/test
+
+Paasword : Codex2022*
+
+mongodb+srv://CodexUDA:Codex2022*@codex.sdbfl4l.mongodb.net/test
