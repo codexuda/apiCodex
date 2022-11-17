@@ -117,10 +117,21 @@ Producto.modificar = function (producto, respuesta) {
                     console.log('Error modificando producto ', error);
                     respuesta(error, null);
                 }
+
+                //La consulta no afectó registros
+                if (resultado.modifiedCount == 0) {
+                    //No se encontraron registros
+                    respuesta({ mensaje: "No actualizado" }, null);
+                    console.log("No se actualizó el país ", producto);
+                    return;
+                }
                 else {
-                    
+                    console.log("Se modificó con éxito el país: ", producto);
                     respuesta(null, producto);
                 }
+
+               
+                
             }
 
         );
