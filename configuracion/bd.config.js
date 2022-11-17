@@ -1,7 +1,8 @@
 module.exports = {
-  SERVIDOR : 'localhost',
+  SERVIDOR : 'codex.sdbfl4l.mongodb.net',
   PUERTO : '27017',
-  BASEDATOS : 'tiendavideo',
-  USUARIO : '',
-  CLAVE : ''
+  BASEDATOS : 'CodexGameShop',
+  USUARIO : 'CodexUDA',
+  CLAVE : 'Codex2022*'
 }
+

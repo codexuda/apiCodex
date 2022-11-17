@@ -122,11 +122,11 @@ Producto.modificar = function (producto, respuesta) {
                 if (resultado.modifiedCount == 0) {
                     //No se encontraron registros
                     respuesta({ mensaje: "No actualizado" }, null);
-                    console.log("No se actualizó el país ", producto);
+                    console.log("No se actualizó el PRODUCTO ", producto);
                     return;
                 }
                 else {
-                    console.log("Se modificó con éxito el país: ", producto);
+                    console.log("Se modificó con éxito el PRODUCTO: ", producto);
                     respuesta(null, producto);
                 }
 
