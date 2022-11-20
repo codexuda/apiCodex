@@ -1,5 +1,6 @@
 const bd = require('./bd')
-const cliente = require('./cliente.modelo')
+const cliente = require('./cliente.modelo');
+const Detalle = require('./detalle.modelo');
 
 const Venta = function () { }
 
@@ -191,10 +192,14 @@ Venta.pagar = function (idVenta, respuesta) {
                 if (error) {
                     console.log('Error pagando venta ', error);
                     respuesta(error, null);
+                    return
                 }
-                else {
-                    respuesta(null, "Venta fue actualizada");
-                }
+                Detalle.actualizarInventario(idVenta,
+                    function (err, res) {
+                        console.log(res);
+                    });
+                respuesta(null, "La venta ha sido pagada");
+
             }
 
         );

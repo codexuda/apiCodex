@@ -41,54 +41,61 @@ Detalle.listar = function (idVenta, resultado) {
 Detalle.agregar = (idVenta, detalle, respuesta) => {
     const basedatos = bd.obtenerBD();
 
-    //Verificar que el cliente exista
+    //Verificar que el producto exista
     producto.obtener(detalle.producto.id,
         function (error, resultado) {
-            detalle.producto = resultado;
-            detalle.valorunitario = resultado.precio;
+            //Verificar que haya existencia
+            if (resultado.existencia > 0) {
 
-            basedatos.collection('ventas')
-                //***** Código MongoDB *****
-                .updateOne(
-                    {
-                        id: eval(idVenta)
-                    },
-                    {
-                        $push: {
-                            detalles:
-                            {
-                                producto: detalle.producto,
-                                cantidad: detalle.cantidad,
-                                valorunitario: detalle.valorunitario
+                detalle.producto = resultado;
+                detalle.valorunitario = resultado.precio;
+
+                basedatos.collection('ventas')
+                    //***** Código MongoDB *****
+                    .updateOne(
+                        {
+                            id: eval(idVenta)
+                        },
+                        {
+                            $push: {
+                                detalles:
+                                {
+                                    producto: detalle.producto,
+                                    cantidad: detalle.cantidad,
+                                    valorunitario: detalle.valorunitario
+                                }
+
                             }
+                        },
+                        //**************************
+                        function (err, res) {
+                            //Verificar si hubo error ejecutando la consulta
+                            if (err) {
+                                console.log("Error agregando detalle de la venta:", err);
+                                respuesta(err, null);
+                                return;
+                            }
+                            //La consulta no afectó registros
+                            if (res.modifiedCount == 0) {
+                                //No se encontraron registros
+                                respuesta({ mensaje: "No encontrado" }, null);
+                                console.log("No se encontró la venta", err);
+                                return;
+                            }
+                            console.log("Detalle de la venta agregado :", detalle);
+                            respuesta(null, detalle);
 
+                            venta.modificarValor(idVenta,
+                                function (err, res) {
+                                    console.log(res);
+                                });
                         }
-                    },
-                    //**************************
-                    function (err, res) {
-                        //Verificar si hubo error ejecutando la consulta
-                        if (err) {
-                            console.log("Error agregando detalle de la venta:", err);
-                            respuesta(err, null);
-                            return;
-                        }
-                        //La consulta no afectó registros
-                        if (res.modifiedCount == 0) {
-                            //No se encontraron registros
-                            respuesta({ mensaje: "No encontrado" }, null);
-                            console.log("No se encontró la venta", err);
-                            return;
-                        }
-                        console.log("Detalle de la venta agregado :", detalle);
-                        respuesta(null, detalle);
-
-                        venta.modificarValor(idVenta,
-                            function (err, res) {
-                                console.log(res);
-                            });
-                    }
-                )
-
+                    )
+            }
+            else {
+                console.log("Error agregando detalle de la venta: No hay existencia para vender");
+                respuesta({ mensaje: "Error agregando detalle de la venta: No hay existencia para vender" }, null);
+            }
         });
 }
 
@@ -105,9 +112,9 @@ Detalle.modificar = (idVenta, detalle, resultado) => {
             },
             {
                 $set:
-                {
-                    'detalles.$.area': detalle.area,
-                    'detalles.$.poblacion': detalle.poblacion
+                {///tenia area y poblacion
+                    'detalles.$.estado': detalle.estado,
+                    'detalles.$.valor': detalle.valor
                 }
             },
             //**************************
@@ -131,6 +138,35 @@ Detalle.modificar = (idVenta, detalle, resultado) => {
 
         );
 }
+
+//Metodo que actualiza las existencias de los productos vendidos
+Detalle.actualizarInventario = (idVenta, resultado) => {
+    const basedatos = bd.obtenerBD();
+
+    //Consultar el detalle de la venta
+    Detalle.listar(idVenta, async (error, detalles) => {
+        //Verificar si hubo error ejecutando la consulta
+        if (error) {
+            console.log("Error actualizando inventario:", error);
+            resultado(error, null);
+            return;
+        }
+        await detalles.map((detalle) => {
+            producto.actualizarExistencia(detalle.producto.id, detalle.cantidad,
+                (err, res) => {
+                    if (error) {
+                        console.log("Error actualizando existencia:", err);
+                        return;
+                    }
+                    console.log(res);
+                });
+        });
+
+        resultado(null, { mensaje: `actualizada existencias de la venta ${idVenta}` });
+
+    });
+}
+
 
 //Metodo que elimina un registro 
 Detalle.eliminar = (idVenta, nombreDetalle, resultado) => {

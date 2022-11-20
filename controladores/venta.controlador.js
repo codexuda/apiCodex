@@ -43,6 +43,17 @@ exports.agregar = (req, res) => {
         });
 }
 
+exports.pagar = (req, res) => {
+    venta.pagar(req.params.id,
+        (error, datos) => {
+            if (error) {
+                return res.status(500).send(
+                    { mensaje: 'Error pagando venta' }
+                );
+            }
+            return res.send(datos);
+        });
+}
 
 
 exports.eliminar = (req, res) => {
