@@ -11,4 +11,7 @@ npm install cors --save
 npm i mongodb --force  
 npm install express
 
+para logueo
+npm install jsonwebtoken
+npm install bcryptjs
 

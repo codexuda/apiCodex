@@ -13,6 +13,7 @@ app.use(express.json());
 require('./rutas/cliente.rutas')(app);
 require('./rutas/producto.rutas')(app);
 require('./rutas/venta.rutas')(app);
+require('./rutas/usuario.rutas')(app);
 
 const puerto=3050;
 
