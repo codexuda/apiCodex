@@ -7,6 +7,8 @@ module.exports = (app) => {
     app.get("/ventas/:id", controladorVenta.obtener);
     app.post("/ventas", controladorVenta.agregar);
 
+    app.post("/ventas/pagar/:id", controladorVenta.pagar);
+
     app.delete("/ventas/:id", controladorVenta.eliminar);
 
     app.get("/ventas/detalle/:id", controladorDetalle.listar);
