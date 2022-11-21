@@ -125,7 +125,7 @@ Detalle.modificar = (idVenta, detalle, resultado) => {
                     console.log("No se encontró la detalle de la venta", err);
                     return;
                 }
-                console.log("Región actualizada :", detalle);
+                console.log("Venta actualizada :", detalle);
                 resultado(null, detalle);
             }
 
@@ -165,7 +165,7 @@ Detalle.eliminar = (idVenta, nombreDetalle, resultado) => {
                     console.log("No se encontró la detalle de la venta", err);
                     return;
                 }
-                console.log("Región eliminada con nombre :", nombreDetalle);
+                console.log("Venta eliminada con nombre :", nombreDetalle);
                 resultado(null, res);
             }
         );
