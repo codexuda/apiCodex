@@ -85,7 +85,7 @@ Detalle.agregar = (idVenta, detalle, respuesta) => {
                             console.log("Detalle de la venta agregado :", detalle);
                             respuesta(null, detalle);
 
-                            venta.modificarValor(idVenta,
+                            venta.modificarValor = (idVenta,
                                 function (err, res) {
                                     console.log(res);
                                 });
