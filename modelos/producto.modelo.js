@@ -121,12 +121,12 @@ Producto.modificar = function (producto, respuesta) {
                 //La consulta no afectó registros
                 if (resultado.modifiedCount == 0) {
                     //No se encontraron registros
-                    respuesta({ mensaje: "No actualizado" }, null);
-                    console.log("No se actualizó el PRODUCTO ", producto);
+                    respuesta({ mensaje: "Producto no actualizado" }, null);
+                    console.log("No se actualizó el Producto ", producto);
                     return;
                 }
                 else {
-                    console.log("Se modificó con éxito el PRODUCTO: ", producto);
+                    console.log("Se modificó con éxito el producto: ", producto);
                     respuesta(null, producto);
                 }
               

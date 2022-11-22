@@ -55,7 +55,7 @@ exports.modificar = (req, res) => {
         (error, datos) => {
             if (error) {
                 return res.status(500).send(
-                    { mensaje: 'Error modificando producto' }
+                    { mensaje: `Error modificando producto ${error.mensaje}` }
                 );
             }
             return res.send(datos);
