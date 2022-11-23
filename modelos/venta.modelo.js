@@ -96,6 +96,7 @@ Venta.listar = function (respuesta) {
                 fecha: 1,
                 estado: 1,
                 valor: 1,
+                detalles: 1
             }
         )
         //*****
